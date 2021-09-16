@@ -1,5 +1,6 @@
 const EVENTS = ["enter", "click"]
 let FLAG_gameStarted = false
+let FLAG_shouldHelp = false
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -27,7 +28,16 @@ function activateBox({ currentTarget: box }) {
     document.removeEventListener("keypress", keypress)
   }
   const observer = ({ target }) => target !== box ? reset() : undefined
-  const keypress = ({ key }) => key > 0 && key < 10 ? (box.textContent = key, reset()) : undefined
+  const keypress = ({ key }) => {
+    if(key > 0 && key < 10) {
+      box.textContent = key
+      if(FLAG_shouldHelp && key !== box.dataset.s)
+        box.classList.add("wrong")
+      else 
+        box.classList.remove("wrong")
+      reset()
+    }
+  }
   
   document.addEventListener("click", observer)
   document.addEventListener("keypress", keypress)
@@ -39,11 +49,12 @@ function resetGame() {
   
   for(let i = 0; i < boxes.length; i++) {
     boxes[i].textContent = boxes[i].dataset.s = ""
-    boxes[i].classList.remove("open")
+    boxes[i].classList.remove("open", "wrong")
     EVENTS.forEach((e) => boxes[i].removeEventListener(e, activateBox))
   }
 
   FLAG_gameStarted = false
+  document.querySelector(".help-radio").classList.remove("invisible")
   document.querySelector(".sudoku-wrapper").classList.remove("started")
   startButton.textContent = "Начать"
   startButton.classList.remove("started")
@@ -54,6 +65,7 @@ function generateSudoku(hintsCount) {
   const boxes = document.querySelectorAll(".box")
   const field = generateField()
 
+  document.querySelector(".help-radio").classList.add("invisible")
   document.querySelector(".sudoku-wrapper").classList.add("started")
   startButton.textContent = "Подвести итоги"
   startButton.classList.add("started")
@@ -86,6 +98,7 @@ function generateSudoku(hintsCount) {
 (function interfaceV() {
   const controls = document.querySelectorAll(".difficulty")
   const startButton = document.querySelector(".start-button")
+  const helpSwitcher = document.querySelector(".switcher")
   let FLAG_difficulty = "easy"
 
   controls
@@ -102,6 +115,13 @@ function generateSudoku(hintsCount) {
             ? resetGame() 
             : generateSudoku(({"easy": 30, "normal": 25, "hard": 20, "hardcore": 17})[FLAG_difficulty])
     }))
+  EVENTS
+    .forEach(
+      (e) => helpSwitcher.addEventListener(e, () => {
+        FLAG_shouldHelp = !FLAG_shouldHelp
+        helpSwitcher.classList.toggle("active")
+      })
+    )
 })()
 
 

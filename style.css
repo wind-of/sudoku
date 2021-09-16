@@ -24,7 +24,8 @@ ul {
 li {
   list-style: none;
 }
-h1 {
+h1, h2 {
+  margin: 0;
   font-family: "Poppins", sans-serif;
 }
 
@@ -51,8 +52,8 @@ h1 {
 
 
 .box {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
 
   display: flex;
   justify-content: space-around;
@@ -68,25 +69,32 @@ h1 {
 
   transition: .3s ease-in-out;
 }
+.box.wrong {
+  background-color: #ff004c;
+  color: white;
+}
 .box.open {
   background-color:#E2EBF3;
 }
 .box.selected {
-  z-index: 11;
   border-color: #0040ff;
+
   transform: scale(1.1);
+  z-index: 11;
 }
 .sudoku-wrapper.started .box {
   cursor: pointer;
 }
 .sudoku-wrapper.started .box:not(.selected):hover {
-  z-index: 10;
   border-color: #4169E1;
+
   transform: scale(1.05);
+  z-index: 10;
 }
 .sudoku-wrapper.started .box.open:hover {
-  transform: none;
   border-color: #7d7d80;
+  
+  transform: none;
   cursor: default;
 }
 
@@ -174,6 +182,53 @@ h1 {
   color: #614DFF;
   border-color: #614DFF;
 }
+
+
+
+.help-radio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.help-radio p {
+  margin: 10px 0;
+
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+}
+.help-radio.invisible {
+  display: none;
+}
+.switcher {
+  margin: 0 10px;
+
+  background-color: white;
+  border: 1px solid #999;
+  border-radius: 15px;
+
+  cursor: pointer;
+
+  transition: .2s ease-in-out;
+}
+.switcher .ball {
+  width: 20px;
+  height: 20px;
+  margin: 2px 25px 2px 2px;
+
+  background-color: rgba(0, 0, 0, 0.411);
+  border-radius: 20px;
+
+  transition: .2s ease-in-out;
+}
+.switcher.active {
+  border: 1px solid #614DFF;
+}
+.switcher.active .ball {
+  margin: 2px 2px 2px 25px;
+  background-color: #614DFF;
+}
+
+
 
 
 
