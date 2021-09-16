@@ -10,6 +10,18 @@ function shuffle(array) {
   return array
 }
 
+function didSudokuComplete() {
+  const boxes = document.querySelectorAll(".box:not(.open)")
+  for(let i = 0; i < boxes.length; i++) 
+    if(boxes[i].classList.contains("wrong") || boxes[i].textContent !== boxes[i].dataset.s)
+      return false
+  return true
+}
+
+function showResults() {
+  alert("Победа!")
+}
+
 function generateField() {
   const a = []
   let field = '0681594327597283416342671589934157268278936145156842973729318654813465792465729831'
@@ -35,7 +47,11 @@ function activateBox({ currentTarget: box }) {
         box.classList.add("wrong")
       else 
         box.classList.remove("wrong")
-      reset()
+
+      if(didSudokuComplete())
+        showResults()
+      else
+        reset()
     }
   }
   
