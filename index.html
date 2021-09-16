@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="sudoku.ico" type="image/x-icon">
+  <title>Судоку</title>
+</head>
+<body>
+  <h1>Судоку</h1>
+  <div class="sudoku-wrapper">
+    <ul class="sudoku">
+      <ul class="table">
+        <ul class="box-container-wrapper">
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+        </ul>
+        <ul class="box-container-wrapper">
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+        </ul>
+        <ul class="box-container-wrapper">
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+        </ul>
+      </ul>
+      <ul class="table">
+        <ul class="box-container-wrapper">
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+        </ul>
+        <ul class="box-container-wrapper">
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+        </ul>
+        <ul class="box-container-wrapper">
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+        </ul>
+      </ul>
+      <ul class="table">
+        <ul class="box-container-wrapper">
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+        </ul>
+        <ul class="box-container-wrapper">
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+        </ul>
+        <ul class="box-container-wrapper">
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+          <ul class="box-container">
+            <li class="box"></li>
+            <li class="box"></li>
+            <li class="box"></li>
+          </ul>
+        </ul>
+      </ul>
+    </ul>
+  </div>
+  <div class="controls">
+    <ul class="difficulties">
+      <li><button class="difficulty selected" data-d="easy"><span class="difficulty__content">Легко <br> <span>(30 подсказок)</span></span></button></li>
+      <li><button class="difficulty" data-d="normal"><span class="difficulty__content">Нормально <br> <span>(25 подсказок)</span></span></button></li>
+      <li><button class="difficulty" data-d="hard"><span class="difficulty__content">Сложно <br> <span>(20 подсказок)</span></span></button></li>
+      <li><button class="difficulty" data-d="hardcore"><span class="difficulty__content">Хардкор <br> <span>(17 подсказок)</span></span></button></li>
+    </ul>
+    <button class="start-button">Начать</button>
+  </div>
+</body>
+<script src="index.js"></script>
+</html>
