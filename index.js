@@ -55,6 +55,7 @@ function resetGame() {
 
   FLAG_gameStarted = false
   document.querySelector(".help-radio").classList.remove("invisible")
+  document.querySelector(".difficulties").classList.remove("invisible")
   document.querySelector(".sudoku-wrapper").classList.remove("started")
   startButton.textContent = "Начать"
   startButton.classList.remove("started")
@@ -66,8 +67,9 @@ function generateSudoku(hintsCount) {
   const field = generateField()
 
   document.querySelector(".help-radio").classList.add("invisible")
+  document.querySelector(".difficulties").classList.add("invisible")
   document.querySelector(".sudoku-wrapper").classList.add("started")
-  startButton.textContent = "Подвести итоги"
+  startButton.textContent = "Закончить игру"
   startButton.classList.add("started")
   FLAG_gameStarted = true
   
@@ -78,7 +80,7 @@ function generateSudoku(hintsCount) {
         for(let m = 0; m < 3; m++) 
           boxes[m + k * 9 + l * 3 + i * 27].dataset.s = field[m + k * 3  + l * 9 + i * 27]
 
-  for(let i = hintsCount, box = boxes[Math.random() * 81 | 0]; i > 0; box = boxes[Math.random() * 81 | 0], i--) {
+  for(let i = hintsCount % 82, box = boxes[Math.random() * 81 | 0]; i > 0; box = boxes[Math.random() * 81 | 0], i--) {
       if(box.textContent !== "")
         i++
       else {
@@ -103,7 +105,6 @@ function generateSudoku(hintsCount) {
 
   controls
     .forEach((b) => EVENTS.forEach((e) => b.addEventListener(e, ({ currentTarget }) => {
-      resetGame()
       FLAG_difficulty = currentTarget.dataset.d
       document.querySelector(".difficulty.selected").classList.remove("selected")
       currentTarget.classList.add("selected")
