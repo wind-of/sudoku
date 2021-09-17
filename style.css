@@ -67,7 +67,7 @@ h1, h2 {
   background-color: white;
   border: 1.5px solid #7d7d80;
 
-  transition: .3s ease-in-out;
+  transition: .1s ease-in-out;
 }
 .box.wrong {
   background-color: #ff004c;
@@ -126,7 +126,7 @@ h1, h2 {
 .difficulty {
   position: relative;
   padding: 10px 20px;
-  margin: 0 15px;
+  margin: 15px;
   
   display: inline-block;
   
@@ -274,4 +274,36 @@ h1, h2 {
   background: url(https://i.postimg.cc/wvc48SLG/pixelmat.png);
   background-size: 180px;
   animation: animate .8s steps(8) forwards;
+}
+
+
+
+
+
+
+@media (max-width: 768px) {
+  .box {
+    width: 30px;
+    height: 30px;
+  }
+  .difficulty {
+    padding: 5px 15px;
+    margin: 10px;
+
+    font-size: 14px;
+  }
+  .help-radio p {
+    margin: 5px;
+
+    font-size: 14px;
+  }
+  .switcher .ball {
+    width: 15px;
+    height: 15px;
+  }
+  .start-button {
+    padding: 10px 15px;
+
+    font-size: 14px;
+  }
 }

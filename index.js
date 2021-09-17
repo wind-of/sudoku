@@ -10,6 +10,10 @@ function shuffle(array) {
   return array
 }
 
+function isMobile() {
+  return /Mobile|webOS|BlackBerry|IEMobile|MeeGo|mini|Fennec|Windows Phone|Android|iP(ad|od|hone)/i.test(navigator.userAgent)
+} 
+
 function didSudokuComplete() {
   const boxes = document.querySelectorAll(".box:not(.open)")
   for(let i = 0; i < boxes.length; i++) 
@@ -32,15 +36,25 @@ function generateField() {
 }
 
 function activateBox({ currentTarget: box }) {
+  const mobile = isMobile()
+  const hiddenInput = document.getElementById("text")
   box.classList.add("selected")
+  
+  if(mobile)
+    hiddenInput.focus()
 
   const reset = () => {
     box.classList.remove("selected") 
     document.removeEventListener("click", observer)
-    document.removeEventListener("keypress", keypress)
+    if(mobile) 
+      hiddenInput.removeEventListener("input", keypress)
+    else 
+      document.removeEventListener("keypress", keypress)
+    
   }
   const observer = ({ target }) => target !== box ? reset() : undefined
-  const keypress = ({ key }) => {
+  const keypress = ({ key, data }) => {
+    if(mobile) key = data
     if(key > 0 && key < 10) {
       box.textContent = key
       if(FLAG_shouldHelp && key !== box.dataset.s)
@@ -53,10 +67,14 @@ function activateBox({ currentTarget: box }) {
       else
         reset()
     }
+    if(mobile) hiddenInput.blur()
   }
   
   document.addEventListener("click", observer)
-  document.addEventListener("keypress", keypress)
+    if(mobile) 
+      hiddenInput.addEventListener("change", keypress)
+    else 
+      document.addEventListener("keypress", keypress)
 }
 
 function resetGame() {
