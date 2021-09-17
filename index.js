@@ -72,7 +72,7 @@ function activateBox({ currentTarget: box }) {
   
   document.addEventListener("click", observer)
     if(mobile) 
-      hiddenInput.addEventListener("change", keypress)
+      hiddenInput.addEventListener("input", keypress)
     else 
       document.addEventListener("keypress", keypress)
 }
