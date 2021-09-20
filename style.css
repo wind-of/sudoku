@@ -9,7 +9,9 @@ body {
   height: 100vh;
 
   background-color: #242132;
+
   color: white;
+  font-family: "Poppins", sans-serif;
 
   display: flex;
   flex-direction: column;
@@ -27,7 +29,6 @@ li {
 h1,
 h2 {
   margin: 0;
-  font-family: "Poppins", sans-serif;
 }
 
 
@@ -39,8 +40,32 @@ h2 {
 
 
 
+.sudoku-wrapper.started .mock-table{
+  display: none;
+}
 .sudoku {
   border: 2px solid #7b72aa;
+}
+.mock-table {
+  position: absolute;
+  width: 485px;
+  height: 485px;
+  margin-top: 15px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  
+
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #7b72aa;
+}
+.mock-table p {
+  width: 90%;
+
+  font-size: 17px;
 }
 .table {
   display: flex;
@@ -68,7 +93,7 @@ h2 {
   color: black;
   font-size: 26px;
   font-weight: 300;
-  font-family: "Poppins", sans-serif;
+  
 
   background-color: white;
   border: 1.5px solid #7d7d80;
@@ -122,6 +147,16 @@ h2 {
 .difficulties.mobile {
   display: none;
 }
+.difficulty-button {
+  padding: 5px 20px;
+  margin-bottom: 10px;
+
+  color: white;
+  font-size: 15px;
+
+  background: none;
+  border: 1px solid #614dff;
+}
 .difficulties-mobile-view__list {
   width: 70%;
 
@@ -137,13 +172,9 @@ h2 {
 
   color: black;
   font-size: 16px;
-  font-family: "Poppins", sans-serif;
 
   text-align: center;
 }
-
-
-
 .difficulties-mobile-view-veil {
   position: absolute;
   top: 0;
@@ -157,16 +188,6 @@ h2 {
 
   background: rgba(0, 0, 0, 0.4);
   z-index: 15;
-}
-.difficulty-button {
-  padding: 5px 20px;
-  margin-bottom: 10px;
-
-  color: white;
-  font-size: 15px;
-
-  background: none;
-  border: 1px solid #614dff;
 }
 
 
@@ -250,7 +271,6 @@ h2 {
 .help-radio p {
   margin: 10px 0;
 
-  font-family: "Poppins", sans-serif;
   font-size: 18px;
 }
 .switcher {
@@ -305,7 +325,6 @@ h2 {
   border: 1px solid #ec1840;
 
   color: #fff;
-  font-family: "Poppins", sans-serif;
   font-size: 16px;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -333,18 +352,42 @@ h2 {
 
 
 @media (max-width: 768px) {
+  .mock-table {
+    width: 305px;
+    height: 305px;
+  }
+  .mock-table p {
+    width: 90%;
+    font-size: 16px;
+  }
+  .mock-table h1 {
+    font-size: 20px;
+  }
+
   .box {
     width: 30px;
     height: 30px;
   }
+
+
   .difficulty {
     padding: 5px 15px;
     margin: 10px;
 
     font-size: 14px;
   }
+  .difficulties.mobile {
+    margin: 10px 0;
+
+    display: block;
+  }
+  .difficulties.desktop {
+    display: none;
+  }
+
+
   .help-radio p {
-    margin: 5px;
+    margin: 10px 5px;
 
     font-size: 14px;
   }
@@ -352,15 +395,11 @@ h2 {
     width: 15px;
     height: 15px;
   }
+
+
   .start-button {
-    padding: 10px 15px;
+    padding: 10px 25px;
 
     font-size: 14px;
-  }
-  .difficulties.mobile {
-    display: block;
-  }
-  .difficulties.desktop {
-    display: none;
   }
 }
