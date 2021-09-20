@@ -2,6 +2,7 @@ const EVENTS = ["enter", "click"]
 let FLAG_gameStarted = false
 let FLAG_shouldHelp = false
 
+
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
@@ -17,12 +18,9 @@ function isMobile() {
 }
 
 function didSudokuComplete() {
-  const boxes = document.querySelectorAll(".box:not(.open)")
+  const boxes = document.querySelectorAll(".box:not(.open):not(.wrong)")
   for (let i = 0; i < boxes.length; i++)
-    if (
-      boxes[i].classList.contains("wrong") ||
-      boxes[i].textContent !== boxes[i].dataset.s
-    )
+    if (boxes[i].textContent !== boxes[i].dataset.s)
       return false
   return true
 }
@@ -128,12 +126,13 @@ function generateSudoku(hintsCount) {
 
 
 (function interfaceV() {
-  const difficulties = { easy: 35, normal: 30, hard: 25, hardcore: 17 }
+  const DIFFICULTIES = { easy: 35, normal: 30, hard: 25, hardcore: 17 }
+  let FLAG_difficulty = "easy"
+
   const controls = document.querySelectorAll(".difficulty")
   const startButton = document.querySelector(".start-button")
   const helpSwitcher = document.querySelector(".switcher")
-  let FLAG_difficulty = "easy"
-
+  
 
   controls.forEach((control) =>
     EVENTS.forEach((eventName) =>
@@ -151,7 +150,7 @@ function generateSudoku(hintsCount) {
       event.preventDefault()
       FLAG_gameStarted
         ? resetGame()
-        : generateSudoku(difficulties[FLAG_difficulty])
+        : generateSudoku(DIFFICULTIES[FLAG_difficulty])
     })
   )
   EVENTS.forEach((eventName) =>
