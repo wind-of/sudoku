@@ -148,7 +148,7 @@ h2 {
   display: none;
 }
 .difficulty-button {
-  padding: 5px 20px;
+  padding: 10px 20px;
   margin-bottom: 10px;
 
   color: white;
@@ -174,6 +174,10 @@ h2 {
   font-size: 16px;
 
   text-align: center;
+}
+.difficulties-mobile-view__list__item.selected {
+  background-color: royalblue;
+  color: white;
 }
 .difficulties-mobile-view-veil {
   position: absolute;

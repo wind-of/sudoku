@@ -163,11 +163,16 @@ function generateSudoku(hintsCount) {
   const mobileControl = document.querySelector(".difficulty-button")
   const mobileDifficultyButtons = document.querySelectorAll(".difficulties-mobile-view__list__item")
   const mobilePopupVeil = document.querySelector(".difficulties-mobile-view-veil")
-
+  const currentDifficultyButton = () => document.querySelector(".difficulties-mobile-view__list__item.selected")
+  
   mobileDifficultyButtons.forEach((button) =>
     button.addEventListener("click", ({ target }) => {
       FLAG_difficulty = target.dataset.d
+
       mobilePopupVeil.classList.add("invisible")
+      currentDifficultyButton().classList.remove("selected")
+      target.classList.add("selected")
+      mobileControl.textContent = target.textContent
     })
   )
 
