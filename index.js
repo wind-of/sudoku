@@ -129,9 +129,6 @@ function generateSudoku(hintsCount) {
 
 (function interfaceV() {
   const difficulties = { easy: 35, normal: 30, hard: 25, hardcore: 17 }
-  const mobileControl = document.querySelector(".difficulty-button")
-  const mobileDifficultyButtons = document.querySelectorAll(".difficulties-mobile-view__list__item")
-  const mobilePopupVeil = document.querySelector(".difficulties-mobile-view-veil")
   const controls = document.querySelectorAll(".difficulty")
   const startButton = document.querySelector(".start-button")
   const helpSwitcher = document.querySelector(".switcher")
@@ -164,22 +161,26 @@ function generateSudoku(hintsCount) {
     })
   )
 
+  const mobileControl = document.querySelector(".difficulty-button")
+  const mobileDifficultyButtons = document.querySelectorAll(".difficulties-mobile-view__list__item")
+  const mobilePopupVeil = document.querySelector(".difficulties-mobile-view-veil")
+
+  mobileDifficultyButtons.forEach((button) =>
+    button.addEventListener("click", ({ target }) => {
+      FLAG_difficulty = target.dataset.d
+      mobilePopupVeil.classList.add("invisible")
+    })
+  )
 
   mobileControl.addEventListener("click", () => {
     mobilePopupVeil.classList.remove("invisible")
-    document.addEventListener("click", function k({ target }) {
-      if (target === mobilePopupVeil) {
-        mobilePopupVeil.classList.add("invisible")
-        document.removeEventListener("click", k)
+    document.addEventListener("click", 
+      function k({ target }) {
+        if (target === mobilePopupVeil) {
+          mobilePopupVeil.classList.add("invisible")
+          document.removeEventListener("click", k)
+        }
       }
-    })
-    mobileDifficultyButtons.forEach((button) =>
-      button.addEventListener("click", ({ target }) => {
-        FLAG_difficulty = target.dataset.d
-        mobilePopupVeil.classList.add("invisible")
-      })
     )
   })
-
-
 })()
