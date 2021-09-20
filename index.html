@@ -174,18 +174,30 @@
     </ul>
   </div>
   <div class="controls">
-    <ul class="difficulties">
-      <li><button class="difficulty selected" data-d="easy"><span class="difficulty__content">Легко <br> <span>(30 подсказок)</span></span></button></li>
-      <li><button class="difficulty" data-d="normal"><span class="difficulty__content">Нормально <br> <span>(25 подсказок)</span></span></button></li>
-      <li><button class="difficulty" data-d="hard"><span class="difficulty__content">Сложно <br> <span>(20 подсказок)</span></span></button></li>
-      <li><button class="difficulty" data-d="hardcore"><span class="difficulty__content">Хардкор <br> <span>(17 подсказок)</span></span></button></li>
+    <div class="difficulties mobile">
+      <button class="difficulty-button">Выбрать сложность</button>
+    </div>
+    <ul class="difficulties desktop">
+      <li><button class="difficulty selected" data-d="easy"><span class="difficulty__content">Легко <br> <span>(35 открытых клеток)</span></span></button></li>
+      <li><button class="difficulty" data-d="normal"><span class="difficulty__content">Нормально <br> <span>(30 открытых клеток)</span></span></button></li>
+      <li><button class="difficulty" data-d="hard"><span class="difficulty__content">Сложно <br> <span>(25 открытых клеток)</span></span></button></li>
+      <li><button class="difficulty" data-d="hardcore"><span class="difficulty__content">Хардкор <br> <span>(17 открытых клеток)</span></span></button></li>
     </ul>
     <div class="help-radio">
       <p>Показывать ошибки: </p>
-      <div class="switcher" tabindex="0"><div class="ball"></div></div>
+      <button class="switcher"><div class="ball"></button></div>
     </div>
     <button class="start-button">Начать</button>
   </div>
+  <div class="difficulties-mobile-view-veil invisible">
+    <ul class="difficulties-mobile-view__list">
+      <li><button class="difficulties-mobile-view__list__item" data-d="easy">Легко (35 открытых клеток)</button></li>
+      <li><button class="difficulties-mobile-view__list__item" data-d="normal">Нормально (30 открытых клеток)</button></li>
+      <li><button class="difficulties-mobile-view__list__item" data-d="hard">Сложно (25 открытых клеток)</button></li>
+      <li><button class="difficulties-mobile-view__list__item" data-d="hardcore">Хардкор (17 открытых клеток)</button></li>
+    </ul>
+  </div>
+  
   <div style="position: absolute;top:-1000px;left:-1000px;">
     <input type="tel" id="text">
   </div>
