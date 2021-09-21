@@ -1,7 +1,13 @@
 const EVENTS = ["enter", "click"]
+const boxIndexMap = []
 let FLAG_gameStarted = false
 let FLAG_shouldHelp = false
 
+for (let i = 0; i < 3; i++)
+    for (let l = 0; l < 3; l++)
+      for (let k = 0; k < 3; k++)
+        for (let m = 0; m < 3; m++)
+          boxIndexMap[m + k * 3 + l * 9 + i * 27] = m + k * 9 + l * 3 + i * 27
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -25,16 +31,31 @@ function didSudokuComplete() {
   return true
 }
 
-function showResults() {
-  alert("Победа!")
+function finishGame() {
+  const boxes = document.querySelectorAll(".box")
+  const groups = Array(17).fill(0).map(() => ([]))
+
+  for(let i = 0; i < 17; i++) {
+    for(let k = Math.min(i, 8), n = Math.max(i - 8, 0); k >= 0 && n <= 8; k--, n++) {
+      groups[i].push(boxes[boxIndexMap[[k * 9 + n]]])
+    }
+  }
+
+  (function f(i) {
+    if(i < 17) {
+      groups[i].forEach((box) => box.classList.add("animation"))
+      setTimeout(f, 50, i + 1)
+    } 
+    else setTimeout(resetGame, 750)
+  })(0)
 }
 
 function generateField() {
   const a = []
-  let field =
-    "0681594327597283416342671589934157268278936145156842973729318654813465792465729831"
+  let field = "0681594327597283416342671589934157268278936145156842973729318654813465792465729831"
   let arr = shuffle([1, 2, 3, 4, 6, 7, 5, 8, 9])
-  for (var i = 1; i < 82; i++) a.push(arr[field.substr(i, 1) - 1])
+  for (let i = 1; i < 82; i++) 
+    a.push(arr[field.substr(i, 1) - 1])
   return a
 }
 
@@ -59,8 +80,8 @@ function activateBox({ currentTarget: box }) {
       if (FLAG_shouldHelp && key !== box.dataset.s) box.classList.add("wrong")
       else box.classList.remove("wrong")
 
-      if (didSudokuComplete()) showResults()
-      else reset()
+      reset()
+      if (didSudokuComplete()) finishGame()
     }
     if (mobile) hiddenInput.blur()
   }
@@ -76,7 +97,7 @@ function resetGame() {
 
   for (let i = 0; i < boxes.length; i++) {
     boxes[i].textContent = boxes[i].dataset.s = ""
-    boxes[i].classList.remove("open", "wrong")
+    boxes[i].classList.remove("open", "wrong", "animation", "selected")
     EVENTS.forEach((e) => boxes[i].removeEventListener(e, activateBox))
   }
 
@@ -102,12 +123,8 @@ function generateSudoku(hintsCount) {
   startButton.classList.add("started")
   FLAG_gameStarted = true
 
-  for (let i = 0; i < 3; i++)
-    for (let l = 0; l < 3; l++)
-      for (let k = 0; k < 3; k++)
-        for (let m = 0; m < 3; m++)
-          boxes[m + k * 9 + l * 3 + i * 27].dataset.s =
-            field[m + k * 3 + l * 9 + i * 27]
+  for (let i = 0; i < 81; i++) 
+    boxes[boxIndexMap[i]].dataset.s = field[i]
 
   for (let i = hintsCount % 82, box = boxes[(Math.random() * 81) | 0]; i > 0;box = boxes[(Math.random() * 81) | 0], i--) {
     if (box.textContent !== "") i++

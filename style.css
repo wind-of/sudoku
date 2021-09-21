@@ -34,7 +34,7 @@ h2 {
 
 
 .invisible {
-  display: none !important;
+  transform: scaleY(0) !important;
 }
 
 
@@ -100,6 +100,9 @@ h2 {
 
   transition: .1s ease-in-out;
 }
+.box.animation {
+  animation: boxDisappear 1s 1 forwards;
+}
 .box.wrong {
   background-color: #ff004c;
   color: white;
@@ -129,6 +132,16 @@ h2 {
   cursor: default;
 }
 
+@keyframes boxDisappear {
+  50% {
+    background-color: #BCC0D3;
+  }
+  100% {
+    background-color: white;
+    color: rgba(0, 0, 0, 0);
+  }
+}
+
 
 
 
@@ -143,6 +156,8 @@ h2 {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+
+  transition: .2s ease-in-out;
 }
 .difficulties.mobile {
   display: none;
@@ -156,6 +171,8 @@ h2 {
 
   background: none;
   border: 1px solid #614dff;
+
+  transition: .2s ease-in-out;
 }
 .difficulties-mobile-view__list {
   width: 70%;
@@ -271,6 +288,8 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  transition: .2s ease-in-out;
 }
 .help-radio p {
   margin: 10px 0;
@@ -334,6 +353,7 @@ h2 {
   text-transform: uppercase;
 
   cursor: pointer;
+  transition: .2s ease-in-out;
 }
 .start-button:hover {
   background: url(https://i.postimg.cc/wBXGXbWN/pixel.png);
@@ -349,11 +369,6 @@ h2 {
   background-size: 180px;
   animation: animate .8s steps(8) forwards;
 }
-
-
-
-
-
 
 @media (max-width: 768px) {
   .mock-table {
