@@ -1,5 +1,6 @@
 const EVENTS = ["enter", "click"]
 const boxIndexMap = []
+
 let FLAG_gameStarted = false
 let FLAG_shouldHelp = false
 
@@ -9,12 +10,12 @@ for (let i = 0; i < 3; i++)
         for (let m = 0; m < 3; m++)
           boxIndexMap[m + k * 3 + l * 9 + i * 27] = m + k * 9 + l * 3 + i * 27
 
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]]
+    [a[i], a[j]] = [a[j], a[i]]
   }
-  return array
+  return a
 }
 
 function isMobile() {
@@ -23,31 +24,15 @@ function isMobile() {
   )
 }
 
+
+
+
 function didSudokuComplete() {
   const boxes = document.querySelectorAll(".box:not(.open):not(.wrong)")
   for (let i = 0; i < boxes.length; i++)
     if (boxes[i].textContent !== boxes[i].dataset.s)
       return false
   return true
-}
-
-function finishGame() {
-  const boxes = document.querySelectorAll(".box")
-  const groups = Array(17).fill(0).map(() => ([]))
-
-  for(let i = 0; i < 17; i++) {
-    for(let k = Math.min(i, 8), n = Math.max(i - 8, 0); k >= 0 && n <= 8; k--, n++) {
-      groups[i].push(boxes[boxIndexMap[[k * 9 + n]]])
-    }
-  }
-
-  (function f(i) {
-    if(i < 17) {
-      groups[i].forEach((box) => box.classList.add("animation"))
-      setTimeout(f, 50, i + 1)
-    } 
-    else setTimeout(resetGame, 750)
-  })(0)
 }
 
 function generateField() {
@@ -59,36 +44,70 @@ function generateField() {
   return a
 }
 
+
+
+
+
 function activateBox({ currentTarget: box }) {
   const mobile = isMobile()
   const hiddenInput = document.getElementById("text")
+  
   box.classList.add("selected")
 
   if (mobile) hiddenInput.focus()
 
   const reset = () => {
     box.classList.remove("selected")
+
     document.removeEventListener("click", observer)
-    if (mobile) hiddenInput.removeEventListener("input", keypress)
-    else document.removeEventListener("keypress", keypress)
+    if (mobile) 
+      hiddenInput.removeEventListener("input", input)
+    else 
+      document.removeEventListener("keypress", input)
   }
   const observer = ({ target }) => (target !== box ? reset() : undefined)
-  const keypress = ({ key, data }) => {
-    if (mobile) key = data
+  const input = ({ key, data }) => {
+    if (mobile) {
+      key = data
+      hiddenInput.blur()
+    }
+
     if (key > 0 && key < 10) {
+      const method = FLAG_shouldHelp && key !== box.dataset.s ? "add" : "remove"
+      box.classList[method]("wrong")
       box.textContent = key
-      if (FLAG_shouldHelp && key !== box.dataset.s) box.classList.add("wrong")
-      else box.classList.remove("wrong")
 
       reset()
-      if (didSudokuComplete()) finishGame()
+      if (didSudokuComplete()) 
+        finishGame()
     }
-    if (mobile) hiddenInput.blur()
   }
 
   document.addEventListener("click", observer)
-  if (mobile) hiddenInput.addEventListener("input", keypress)
-  else document.addEventListener("keypress", keypress)
+  if (mobile) 
+    hiddenInput.addEventListener("input", input)
+  else 
+    document.addEventListener("keypress", input)
+}
+
+
+
+function finishGame() {
+  const boxes = document.querySelectorAll(".box")
+  const groups = Array(17).fill(0).map(() => ([]))
+
+  for(let i = 0; i < 17; i++)
+    for(let k = Math.min(i, 8), n = Math.max(i - 8, 0); k >= 0 && n <= 8; k--, n++)
+      groups[i].push(boxes[boxIndexMap[[k * 9 + n]]])
+
+  (function f(i) {
+    if(i < 17) {
+      groups[i].forEach((box) => box.classList.add("animation"))
+      setTimeout(f, 50, i + 1)
+    } 
+    else 
+      setTimeout(resetGame, 750)
+  })(0)
 }
 
 function resetGame() {
@@ -101,13 +120,15 @@ function resetGame() {
     EVENTS.forEach((e) => boxes[i].removeEventListener(e, activateBox))
   }
 
-  FLAG_gameStarted = false
   document.querySelectorAll(".difficulties").forEach((el) => el.classList.remove("invisible"))
   document.querySelector(".difficulty-button").classList.remove("invisible")
   document.querySelector(".help-radio").classList.remove("invisible")
   document.querySelector(".sudoku-wrapper").classList.remove("started")
+
   startButton.textContent = "Начать"
   startButton.classList.remove("started")
+
+  FLAG_gameStarted = false
 }
 
 function generateSudoku(hintsCount) {
@@ -119,14 +140,16 @@ function generateSudoku(hintsCount) {
   document.querySelector(".difficulty-button").classList.add("invisible")
   document.querySelector(".help-radio").classList.add("invisible")
   document.querySelector(".sudoku-wrapper").classList.add("started")
+
   startButton.textContent = "Закончить игру"
   startButton.classList.add("started")
+
   FLAG_gameStarted = true
 
   for (let i = 0; i < 81; i++) 
     boxes[boxIndexMap[i]].dataset.s = field[i]
 
-  for (let i = hintsCount % 82, box = boxes[(Math.random() * 81) | 0]; i > 0;box = boxes[(Math.random() * 81) | 0], i--) {
+  for (let i = hintsCount % 82, box = boxes[(Math.random() * 81) | 0]; i > 0; box = boxes[(Math.random() * 81) | 0], i--) {
     if (box.textContent !== "") i++
     else {
       box.textContent = box.dataset.s
@@ -135,7 +158,6 @@ function generateSudoku(hintsCount) {
   }
 
   const closedBoxes = document.querySelectorAll(".box:not(.open)")
-
   for (let i = 0; i < closedBoxes.length; i++)
     EVENTS.forEach((e) => closedBoxes[i].addEventListener(e, activateBox))
 }
