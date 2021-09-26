@@ -1,6 +1,8 @@
 const EVENTS = ["enter", "click"]
 const boxIndexMap = []
 
+let FIELD = ""
+
 let FLAG_gameStarted = false
 let FLAG_shouldHelp = false
 
@@ -131,10 +133,10 @@ function resetGame() {
   FLAG_gameStarted = false
 }
 
-function generateSudoku(hintsCount) {
+function generateSudoku(hintsCount, field, openedBoxes = [], activatedBoxes = []) {
   const startButton = document.querySelector(".start-button")
   const boxes = document.querySelectorAll(".box")
-  const field = generateField()
+  FIELD = field || generateField()
 
   document.querySelectorAll(".difficulties").forEach((el) => el.classList.add("invisible"))
   document.querySelector(".difficulty-button").classList.add("invisible")
@@ -144,18 +146,41 @@ function generateSudoku(hintsCount) {
   startButton.textContent = "Закончить игру"
   startButton.classList.add("started")
 
+  localStorage.removeItem("save")
   FLAG_gameStarted = true
 
   for (let i = 0; i < 81; i++) 
-    boxes[boxIndexMap[i]].dataset.s = field[i]
+    boxes[boxIndexMap[i]].dataset.s = FIELD[i]
 
-  for (let i = hintsCount % 82, box = boxes[(Math.random() * 81) | 0]; i > 0; box = boxes[(Math.random() * 81) | 0], i--) {
-    if (box.textContent !== "") i++
-    else {
+  if(openedBoxes.length) {
+    while(openedBoxes.length) {
+      const box = boxes[openedBoxes.shift()]
       box.textContent = box.dataset.s
       box.classList.add("open")
     }
+  } else {
+    for (let i = hintsCount % 82, box = boxes[(Math.random() * 81) | 0]; i > 0; box = boxes[(Math.random() * 81) | 0], i--) 
+      if (box.textContent !== "") i++
+      else {
+        box.textContent = box.dataset.s
+        box.classList.add("open")
+      }
   }
+    
+  
+  if(activatedBoxes.length) 
+    while(activatedBoxes.length) {
+      let [idx, isWrong, value] = activatedBoxes.shift().split("|")
+      if(idx === "") continue
+
+      const box = boxes[idx]
+      if(isWrong === "w")
+        box.classList.add("wrong")
+      else 
+        value = isWrong
+      box.textContent = value
+    }
+    
 
   const closedBoxes = document.querySelectorAll(".box:not(.open)")
   for (let i = 0; i < closedBoxes.length; i++)
@@ -165,13 +190,20 @@ function generateSudoku(hintsCount) {
 
 
 (function interfaceV() {
-  const DIFFICULTIES = { easy: 35, normal: 30, hard: 25, hardcore: 17 }
+  const DIFFICULTIES_ENUM = [
+      ["easy", 35], ["normal", 30], ["hard", 25], ["hardcore", 17]
+    ].reduce((e, [ l, o ]) => (e[l] = o, e[o] = l, e), {})
   let FLAG_difficulty = "easy"
 
   const controls = document.querySelectorAll(".difficulty")
   const startButton = document.querySelector(".start-button")
   const helpSwitcher = document.querySelector(".switcher")
   
+  function toggleSwitcher(value) {
+      FLAG_shouldHelp = value === undefined ? !FLAG_shouldHelp : value
+      const method = FLAG_shouldHelp ? "add" : "remove"
+      helpSwitcher.classList[method]("active")
+  } 
 
   controls.forEach((control) =>
     EVENTS.forEach((eventName) =>
@@ -189,14 +221,11 @@ function generateSudoku(hintsCount) {
       event.preventDefault()
       FLAG_gameStarted
         ? resetGame()
-        : generateSudoku(DIFFICULTIES[FLAG_difficulty])
+        : generateSudoku(DIFFICULTIES_ENUM[FLAG_difficulty])
     })
   )
   EVENTS.forEach((eventName) =>
-    helpSwitcher.addEventListener(eventName, () => {
-      FLAG_shouldHelp = !FLAG_shouldHelp
-      helpSwitcher.classList.toggle("active")
-    })
+    helpSwitcher.addEventListener(eventName, () => toggleSwitcher())
   )
 
   const mobileControl = document.querySelector(".difficulty-button")
@@ -225,5 +254,44 @@ function generateSudoku(hintsCount) {
         }
       }
     )
+  })
+
+  window.addEventListener("load", () => {
+    const save = localStorage.getItem("save")
+    let shouldHelp, field, open, activatedBoxes
+    if(!save) 
+      return
+
+    save
+      .split("&")
+      .map((a) => a.split("="))
+      .forEach(([option, value]) => (
+          ({
+            h: () => shouldHelp = Boolean(eval(value)),
+            f: () => field = value.split(","),
+            o: () => open = value.split(","),
+            a: () => activatedBoxes = value.length ? value.split(",") : []
+          })[option]()
+        )
+      )
+    
+    toggleSwitcher(shouldHelp)
+    generateSudoku(DIFFICULTIES_ENUM[open.length], field, open, activatedBoxes)
+  })
+
+  window.addEventListener("beforeunload", (e) => {
+    const boxes = document.querySelectorAll(".box")
+    
+    if(!FLAG_gameStarted) 
+      return true
+
+    let o = "", a = ""
+    for(let i = 0, box = boxes[i]; i < boxes.length; box = boxes[++i])
+      if(box.classList.contains("open"))
+        o += "," + i
+      else if(box.textContent !== "") 
+        a += `,${i}` + (box.classList.contains("wrong") ? "|w" : "") + `|${box.textContent}`
+
+    localStorage.setItem("save", `h=${FLAG_shouldHelp}&f=${FIELD}&o=${o.substring(1)}&a=${a.length ? a.substring(1) : ""}`)
   })
 })()
