@@ -12,22 +12,11 @@ for (let i = 0; i < 3; i++)
         for (let m = 0; m < 3; m++)
           boxIndexMap[m + k * 3 + l * 9 + i * 27] = m + k * 9 + l * 3 + i * 27
 
-function shuffle(a) {
-  for (let i = a.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
-}
-
 function isMobile() {
   return /Mobile|webOS|BlackBerry|IEMobile|MeeGo|mini|Fennec|Windows Phone|Android|iP(ad|od|hone)/i.test(
     navigator.userAgent
   )
 }
-
-
-
 
 function didSudokuComplete() {
   const boxes = document.querySelectorAll(".box:not(.open):not(.wrong)")
@@ -38,37 +27,29 @@ function didSudokuComplete() {
 }
 
 function generateField() {
-  const a = []
-  let field = "0681594327597283416342671589934157268278936145156842973729318654813465792465729831"
-  let arr = shuffle([1, 2, 3, 4, 6, 7, 5, 8, 9])
+  const result = []
+  const field = "0681594327597283416342671589934157268278936145156842973729318654813465792465729831"
+  const arr = ((a = [1, 2, 3, 4, 6, 7, 5, 8, 9]) => {
+    for (let i = a.length - 1, j = Math.random() * (i + 1) | 0; i > 0; j = Math.random() * (--i + 1) | 0)
+      [a[i], a[j]] = [a[j], a[i]]
+    return a
+  })()
+    
   for (let i = 1; i < 82; i++) 
-    a.push(arr[field.substr(i, 1) - 1])
-  return a
+    result.push(arr[field.substr(i, 1) - 1])
+  return result
 }
 
-
-
-
-
 function activateBox({ currentTarget: box }) {
+  box.classList.add("selected")
+  
   const mobile = isMobile()
   const hiddenInput = document.getElementById("text")
   
-  box.classList.add("selected")
-
   if (mobile) hiddenInput.focus()
 
-  const reset = () => {
-    box.classList.remove("selected")
-
-    document.removeEventListener("click", observer)
-    if (mobile) 
-      hiddenInput.removeEventListener("input", input)
-    else 
-      document.removeEventListener("keypress", input)
-  }
   const observer = ({ target }) => (target !== box ? reset() : undefined)
-  const input = ({ key, data }) => {
+  function input({ key, data }) {
     if (mobile) {
       key = data
       hiddenInput.blur()
@@ -84,12 +65,17 @@ function activateBox({ currentTarget: box }) {
         finishGame()
     }
   }
+  function reset() {
+    box.classList.remove("selected")
 
+    document.removeEventListener("click", observer)
+    if(mobile) hiddenInput.removeEventListener("input", input)
+    else        document.removeEventListener("keypress", input)
+  }
+  
   document.addEventListener("click", observer)
-  if (mobile) 
-    hiddenInput.addEventListener("input", input)
-  else 
-    document.addEventListener("keypress", input)
+  if(mobile) hiddenInput.addEventListener("input", input)
+  else       document.addEventListener("keypress", input)
 }
 
 
@@ -106,7 +92,7 @@ function finishGame() {
     if(i < 17) {
       groups[i].forEach((box) => box.classList.add("animation"))
       setTimeout(f, 50, i + 1)
-    } 
+    }
     else 
       setTimeout(resetGame, 750)
   })(0)
@@ -258,10 +244,9 @@ function generateSudoku(hintsCount, field, openedBoxes = [], activatedBoxes = []
 
   window.addEventListener("load", () => {
     const save = localStorage.getItem("save")
-    let shouldHelp, field, open, activatedBoxes
-    if(!save) 
-      return
+    if(!save) return
 
+    let shouldHelp, field, open, activatedBoxes
     save
       .split("&")
       .map((a) => a.split("="))
@@ -280,11 +265,9 @@ function generateSudoku(hintsCount, field, openedBoxes = [], activatedBoxes = []
   })
 
   window.addEventListener("beforeunload", (e) => {
-    const boxes = document.querySelectorAll(".box")
+    if(!FLAG_gameStarted) return true
     
-    if(!FLAG_gameStarted) 
-      return true
-
+    const boxes = document.querySelectorAll(".box")
     let o = "", a = ""
     for(let i = 0, box = boxes[i]; i < boxes.length; box = boxes[++i])
       if(box.classList.contains("open"))
