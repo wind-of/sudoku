@@ -1,0 +1,66 @@
+.box-container-wrapper {
+  border: 0.5px solid #3a374c;
+}
+.box-container {
+  display: flex;
+}
+
+.box {
+  width: 50px;
+  height: 50px;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  color: black;
+  font-size: 26px;
+  font-weight: 300;
+  
+
+  background-color: white;
+  border: 1.5px solid #7d7d80;
+
+  transition: .1s ease-in-out;
+}
+.box.animation {
+  animation: boxDisappear 1s 1 forwards;
+}
+.box.wrong {
+  background-color: #ff004c;
+  color: white;
+}
+.box.open {
+  background-color: #e2ebf3;
+}
+.box.selected {
+  border-color: #0040ff;
+
+  transform: scale(1.1);
+  z-index: 11;
+}
+.sudoku-wrapper.started .box {
+  cursor: pointer;
+}
+.sudoku-wrapper.started .box:not(.selected):hover {
+  border-color: #4169e1;
+
+  transform: scale(1.05);
+  z-index: 10;
+}
+.sudoku-wrapper.started .box.open:hover {
+  border-color: #7d7d80;
+
+  transform: none;
+  cursor: default;
+}
+
+@keyframes boxDisappear {
+  50% {
+    background-color: #BCC0D3;
+  }
+  100% {
+    background-color: white;
+    color: rgba(0, 0, 0, 0);
+  }
+}

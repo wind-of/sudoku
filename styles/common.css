@@ -1,0 +1,3 @@
+.invisible {
+  transform: scaleY(0) !important;
+}

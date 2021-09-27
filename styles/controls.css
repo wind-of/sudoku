@@ -1,0 +1,85 @@
+.help-radio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: .2s ease-in-out;
+}
+.help-radio p {
+  margin: 10px 0;
+
+  font-size: 18px;
+}
+.switcher {
+  margin: 0 10px;
+
+  background-color: white;
+  border: 1px solid #999;
+  border-radius: 15px;
+
+  cursor: pointer;
+
+  transition: .2s ease-in-out;
+}
+.switcher .ball {
+  width: 20px;
+  height: 20px;
+  margin: 2px 23px 2px -2px;
+
+  background-color: rgba(0, 0, 0, 0.411);
+  border-radius: 20px;
+
+  transition: .2s ease-in-out;
+}
+.switcher.active {
+  border: 1px solid #614dff;
+}
+.switcher.active .ball {
+  margin: 2px -2px 2px 23px;
+  background-color: #614dff;
+}
+
+
+
+
+
+
+@keyframes animate {
+  0% {
+    background-position-y: 0;
+  }
+  100% {
+    background-position-y: -480px;
+  }
+}
+
+.start-button {
+  position: relative;
+  padding: 15px 20px;
+  margin: 20px;
+
+  background: none;
+  border: 1px solid #ec1840;
+
+  color: #fff;
+  font-size: 16px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  cursor: pointer;
+  transition: .2s ease-in-out;
+}
+.start-button:hover {
+  background: url(https://i.postimg.cc/wBXGXbWN/pixel.png);
+  background-size: 180px;
+  animation: animate .8s steps(8) forwards;
+}
+
+.start-button.started {
+  border: 1px solid #3f48cc;
+}
+.start-button.started:hover {
+  background: url(https://i.postimg.cc/wvc48SLG/pixelmat.png);
+  background-size: 180px;
+  animation: animate .8s steps(8) forwards;
+}

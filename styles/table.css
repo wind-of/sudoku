@@ -1,0 +1,30 @@
+.sudoku-wrapper.started .mock-table{
+  display: none;
+}
+.sudoku {
+  border: 2px solid #7b72aa;
+}
+.mock-table {
+  position: absolute;
+  width: 485px;
+  height: 485px;
+  margin-top: 15px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  
+
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #7b72aa;
+}
+.mock-table p {
+  width: 90%;
+
+  font-size: 17px;
+}
+.table {
+  display: flex;
+}
