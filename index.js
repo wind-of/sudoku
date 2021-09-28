@@ -44,17 +44,15 @@ function activateBox({ currentTarget: box }) {
   box.classList.add("selected")
   
   const mobile = isMobile()
-  const hiddenInput = document.getElementById("text")
+  const mobileInput = document.querySelector(".mobile-input")
+  const mobileKeys = mobileInput.querySelectorAll(".key")
   
-  if (mobile) hiddenInput.focus()
+  if(mobile) {
+    mobileInput.classList.remove("invisible")
+  }
 
   const observer = ({ target }) => (target !== box ? reset() : undefined)
-  function input({ key, data }) {
-    if (mobile) {
-      key = data
-      hiddenInput.blur()
-    }
-
+  function input({ key }) {
     if (key > 0 && key < 10) {
       const method = FLAG_shouldHelp && key !== box.dataset.s ? "add" : "remove"
       box.classList[method]("wrong")
@@ -67,15 +65,21 @@ function activateBox({ currentTarget: box }) {
   }
   function reset() {
     box.classList.remove("selected")
+    mobileInput.classList.add("invisible")
 
     document.removeEventListener("click", observer)
-    if(mobile) hiddenInput.removeEventListener("input", input)
-    else        document.removeEventListener("keypress", input)
+    document.removeEventListener("keypress", input)
+    mobileInput.removeEventListener("click", reset)
+    mobileKeys.forEach((k) => k.removeEventListener("click", inputWrapper))
   }
-  
+  function inputWrapper({ target }) {
+    return input(target.dataset)
+  }
+  mobileKeys.forEach((k) => k.addEventListener("click", inputWrapper))
+
   document.addEventListener("click", observer)
-  if(mobile) hiddenInput.addEventListener("input", input)
-  else       document.addEventListener("keypress", input)
+  document.addEventListener("keypress", input)
+  mobileInput.addEventListener("click", reset)
 }
 
 

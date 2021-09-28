@@ -6,12 +6,15 @@
 @import "styles/difficulty.desktop.css";
 @import "styles/difficulty.mobile.css";
 @import "styles/controls.css";
+@import "styles/mobile-input.css";
 
 
 @media (max-width: 768px) {
   .invisible {
     height: 0px;
   }
+
+
 
   .mock-table {
     width: 370px;
@@ -25,12 +28,17 @@
     font-size: 20px;
   }
 
+
+
   .box {
     width: 37.5px;
     height: 37.5px;
 
     font-size: 22px;
   }
+
+
+
 
   .difficulty {
     padding: 5px 15px;
@@ -47,6 +55,9 @@
     display: none;
   }
 
+
+
+
   .help-radio p {
     margin: 10px 5px;
 
@@ -57,9 +68,17 @@
     height: 15px;
   }
 
+
+
   .start-button {
     padding: 10px 25px;
 
     font-size: 14px;
+  }
+
+
+  
+  .mobile-input {
+    display: block;
   }
 }
