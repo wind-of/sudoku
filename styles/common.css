@@ -1,3 +1,4 @@
 .invisible {
   transform: scaleY(0) !important;
+  height: 25px;
 }

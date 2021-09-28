@@ -9,6 +9,10 @@
 
 
 @media (max-width: 768px) {
+  .invisible {
+    height: 0px;
+  }
+
   .mock-table {
     width: 370px;
     height: 370px;
@@ -25,7 +29,7 @@
     width: 37.5px;
     height: 37.5px;
 
-    font-size: 20px;
+    font-size: 22px;
   }
 
   .difficulty {
