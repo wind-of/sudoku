@@ -10,8 +10,8 @@
 
 @media (max-width: 768px) {
   .mock-table {
-    width: 305px;
-    height: 305px;
+    width: 370px;
+    height: 370px;
   }
   .mock-table p {
     width: 90%;
@@ -22,8 +22,8 @@
   }
 
   .box {
-    width: 30px;
-    height: 30px;
+    width: 37.5px;
+    height: 37.5px;
 
     font-size: 20px;
   }
