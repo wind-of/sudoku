@@ -1,5 +1,6 @@
 const EVENTS = ["enter", "click"]
 const boxIndexMap = []
+const fieldIndexmap = []
 
 let FIELD = ""
 
@@ -10,7 +11,8 @@ for (let i = 0; i < 3; i++)
     for (let l = 0; l < 3; l++)
       for (let k = 0; k < 3; k++)
         for (let m = 0; m < 3; m++)
-          boxIndexMap[m + k * 3 + l * 9 + i * 27] = m + k * 9 + l * 3 + i * 27
+          boxIndexMap[m + k * 3 + l * 9 + i * 27] = m + k * 9 + l * 3 + i * 27,
+          fieldIndexmap[m + k * 9 + l * 3 + i * 27] = m + k * 3 + l * 9 + i * 27
 
 function isMobile() {
   return /Mobile|webOS|BlackBerry|IEMobile|MeeGo|mini|Fennec|Windows Phone|Android|iP(ad|od|hone)/i.test(
@@ -21,7 +23,7 @@ function isMobile() {
 function didSudokuComplete() {
   const boxes = document.querySelectorAll(".box:not(.open):not(.wrong)")
   for (let i = 0; i < boxes.length; i++)
-    if (boxes[i].textContent !== boxes[i].dataset.s)
+    if (boxes[i].textContent !== FIELD[fieldIndexmap[i]])
       return false
   return true
 }
@@ -43,6 +45,7 @@ function generateField() {
 function activateBox({ currentTarget: box }) {
   box.classList.add("selected")
   
+  const boxes = [...document.querySelectorAll(".box")]
   const mobile = isMobile()
   const mobileInput = document.querySelector(".mobile-input")
   const mobileKeys = mobileInput.querySelectorAll(".key")
@@ -54,7 +57,7 @@ function activateBox({ currentTarget: box }) {
   const observer = ({ target }) => (target !== box ? reset() : undefined)
   function input({ key }) {
     if (key > 0 && key < 10) {
-      const method = FLAG_shouldHelp && key !== box.dataset.s ? "add" : "remove"
+      const method = FLAG_shouldHelp && key !== FIELD[fieldIndexmap[boxes.indexOf(box)]]? "add" : "remove"
       box.classList[method]("wrong")
       box.textContent = key
 
@@ -107,7 +110,7 @@ function resetGame() {
   const boxes = document.querySelectorAll(".box")
 
   for (let i = 0; i < boxes.length; i++) {
-    boxes[i].textContent = boxes[i].dataset.s = ""
+    boxes[i].textContent = ""
     boxes[i].classList.remove("open", "wrong", "animation", "selected")
     EVENTS.forEach((e) => boxes[i].removeEventListener(e, activateBox))
   }
@@ -139,20 +142,18 @@ function generateSudoku(hintsCount, field, openedBoxes = [], activatedBoxes = []
   localStorage.removeItem("save")
   FLAG_gameStarted = true
 
-  for (let i = 0; i < 81; i++) 
-    boxes[boxIndexMap[i]].dataset.s = FIELD[i]
-
   if(openedBoxes.length) {
     while(openedBoxes.length) {
-      const box = boxes[openedBoxes.shift()]
-      box.textContent = box.dataset.s
+      const i = openedBoxes.shift()
+      const box = boxes[i]
+      box.textContent = FIELD[fieldIndexmap[i]]
       box.classList.add("open")
     }
   } else {
-    for (let i = hintsCount % 82, box = boxes[(Math.random() * 81) | 0]; i > 0; box = boxes[(Math.random() * 81) | 0], i--) 
+    for (let i = hintsCount % 82, j = (Math.random() * 81) | 0, box = boxes[j]; i > 0; box = boxes[j = (Math.random() * 81) | 0], i--) 
       if (box.textContent !== "") i++
       else {
-        box.textContent = box.dataset.s
+        box.textContent = FIELD[fieldIndexmap[j]]
         box.classList.add("open")
       }
   }
