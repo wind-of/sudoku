@@ -2,6 +2,20 @@
   display: none;
 }
 
+.difficulty-button {
+  padding: 15px 25px;
+  margin-bottom: 10px;
+
+  color: white;
+  font-size: 16px;
+
+  background: none;
+  border: 1px solid #614dff;
+
+  transition: .2s ease-in-out;
+}
+
+
 .difficulties-mobile-view__list {
   width: 70%;
 

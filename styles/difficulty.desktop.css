@@ -12,18 +12,6 @@
 
   transition: .2s ease-in-out;
 }
-.difficulty-button {
-  padding: 10px 20px;
-  margin-bottom: 10px;
-
-  color: white;
-  font-size: 15px;
-
-  background: none;
-  border: 1px solid #614dff;
-
-  transition: .2s ease-in-out;
-}
 
 
 
